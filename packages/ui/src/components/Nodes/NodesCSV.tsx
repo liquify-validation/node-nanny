@@ -16,6 +16,7 @@ interface ICSVNode {
   chain: string;
   host: string;
   port: string;
+  endpoint: string;
   automation: string;
   loadBalancers?: string;
   backend?: string;
@@ -177,6 +178,7 @@ export const NodesCSV = ({
       return {
         backend: node.backend,
         port: node.port,
+        endpoint: node.endpoint,
         server: node.server,
         name: nodeName,
         chain: node.chain.toUpperCase(),
