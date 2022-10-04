@@ -205,6 +205,7 @@ export const NodeForm = ({
       name: '',
       url: '',
       port: '',
+      endpoint: '',
       automation: frontend ? false : true,
       backend: '',
       loadBalancers: [],
@@ -280,6 +281,7 @@ export const NodeForm = ({
     values.host,
     values.chain,
     values.port,
+    values.endpoint,
     frontend,
     formData.chains,
     formData.hosts,
@@ -291,12 +293,18 @@ export const NodeForm = ({
       const host = formData?.hosts?.find(({ id }) => id === values.host);
       const [, instance] = host.name.split('-');
       return `http://dispatch-${instance}-instance.nodes.pokt.network:${values.port}`;
+    } else if (values.host && values.port && values.endpoint) {
+      const host = formData?.hosts?.find(({ id }) => id === values.host);
+      const hostDomain = host?.ip || host?.fqdn;
+      const protocol = `http${values.https ? 's' : ''}`;
+      return `${protocol}://${hostDomain}:${values.port}/${values.endpoint}`;
     } else if (values.host && values.port) {
       const host = formData?.hosts?.find(({ id }) => id === values.host);
       const hostDomain = host?.ip || host?.fqdn;
       const protocol = `http${values.https ? 's' : ''}`;
       return `${protocol}://${hostDomain}:${values.port}`;
-    } else {
+    }
+    else {
       return '';
     }
   }, [
@@ -305,6 +313,7 @@ export const NodeForm = ({
     values.host,
     values.port,
     values.https,
+    values.endpoint,
     formData.hosts,
   ]);
 
@@ -701,6 +710,16 @@ export const NodeForm = ({
           variant="outlined"
           error={!!errors.port}
           helperText={errors.port}
+          disabled={read || !formData?.hosts?.length}
+          size="small"
+          fullWidth
+        />
+        <TextField
+          name="endpoint"
+          value={values.endpoint}
+          onChange={handleChange}
+          label="Endpoint"
+          variant="outlined"
           disabled={read || !formData?.hosts?.length}
           size="small"
           fullWidth

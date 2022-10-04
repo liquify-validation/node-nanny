@@ -259,6 +259,7 @@ export type INode = {
   muted: Scalars['Boolean'];
   name: Scalars['String'];
   port: Scalars['Int'];
+  endpoint: Scalars['String'];
   server?: Maybe<Scalars['String']>;
   ssl?: Maybe<Scalars['Boolean']>;
   status: Scalars['String'];
@@ -275,6 +276,7 @@ export type INodeCsvInput = {
   loadBalancers: Array<Scalars['String']>;
   name: Scalars['String'];
   port: Scalars['String'];
+  endpoint: Scalars['String'];
   server?: InputMaybe<Scalars['String']>;
 };
 
@@ -290,6 +292,7 @@ export type INodeInput = {
   loadBalancers: Array<Scalars['ID']>;
   name: Scalars['String'];
   port: Scalars['String'];
+  endpoint: Scalars['String'];
   server?: InputMaybe<Scalars['String']>;
   url: Scalars['String'];
 };
@@ -307,6 +310,7 @@ export type INodeUpdate = {
   loadBalancers?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   name?: InputMaybe<Scalars['String']>;
   port?: InputMaybe<Scalars['String']>;
+  endpoint?: InputMaybe<Scalars['String']>;
   server?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
 };

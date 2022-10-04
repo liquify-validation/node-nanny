@@ -28,6 +28,7 @@ export interface INodeInput {
   name: string;
   url: string;
   port: number;
+  endpoint: string;
   automation: boolean;
   loadBalancers?: Types.ObjectId[];
   backend?: string;
@@ -44,6 +45,7 @@ export interface INodeCsvInput {
   name: string;
   loadBalancers: string[];
   port: string;
+  endpoint: string;
   automation: boolean;
   backend?: string;
   frontend?: string;

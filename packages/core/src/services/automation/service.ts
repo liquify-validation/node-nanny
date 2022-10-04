@@ -136,6 +136,7 @@ export class Service extends BaseService {
           ...nodeInput,
           https,
           port: Number(nodeInput.port),
+          endpoint: nodeInput.endpoint,
           chain: (await this.chainsModel.findOne({ name: nodeInput.chain }))._id,
           host: host._id,
           url: `http${https ? 's' : ''}://${fqdn || ip}:${nodeInput.port}`,
