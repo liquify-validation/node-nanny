@@ -439,7 +439,7 @@ export type ICreateNodeMutationVariables = Exact<{
 }>;
 
 
-export type ICreateNodeMutation = { createNode?: { id: string, backend?: string | null, frontend?: string | null, port: number, name: string, server?: string | null, url: string, muted: boolean, status: string, conditions: string, automation?: boolean | null, dispatch?: boolean | null, loadBalancers?: Array<{ id: string, name: string }> | null, chain: { id: string, name: string, type: string }, host: { id: string, name: string } } | null };
+export type ICreateNodeMutation = { createNode?: { id: string, backend?: string | null, frontend?: string | null, port: number, endpoint?: string | null, name: string, server?: string | null, url: string, muted: boolean, status: string, conditions: string, automation?: boolean | null, dispatch?: boolean | null, loadBalancers?: Array<{ id: string, name: string }> | null, chain: { id: string, name: string, type: string }, host: { id: string, name: string } } | null };
 
 export type ICreateNodesCsvMutationVariables = Exact<{
   nodes: Array<INodeCsvInput> | INodeCsvInput;
