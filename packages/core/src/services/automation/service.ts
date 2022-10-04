@@ -139,7 +139,7 @@ export class Service extends BaseService {
           endpoint: nodeInput.endpoint,
           chain: (await this.chainsModel.findOne({ name: nodeInput.chain }))._id,
           host: host._id,
-          url: `http${https ? 's' : ''}://${fqdn || ip}:${nodeInput.port}`,
+          url: `http${https ? 's' : ''}://${fqdn || ip}:${nodeInput.port}/${nodeInput.endpoint}`,
           loadBalancers: (
             await this.hostsModel.find({
               name: { $in: nodeInput.loadBalancers },

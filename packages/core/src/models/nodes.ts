@@ -10,6 +10,7 @@ export interface INode<Populated = true> {
   host: Populated extends true ? IHost : Types.ObjectId;
   name: string;
   port: number;
+  endpoint: string;
   url: string;
   muted: boolean;
   status: HealthTypes.EErrorStatus;
@@ -31,6 +32,7 @@ export const nodesSchema = new Schema<INode>(
     host: { type: Schema.Types.ObjectId, ref: 'Hosts', required: true },
     name: { type: String, required: true, unique: true },
     port: { type: Number, required: true },
+    endpoint: { type: String, required: false },
     url: { type: String, required: true },
     muted: { type: Boolean, required: true, default: false },
     status: {
