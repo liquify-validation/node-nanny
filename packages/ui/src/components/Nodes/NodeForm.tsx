@@ -154,16 +154,6 @@ export const NodeForm = ({
       errors.host = 'Host does not have an FQDN so HTTPS cannot be enabled';
     }
     if (!values.port) errors.port = 'Port is required';
-    if (
-      (update
-        ? hostPortCombos.filter(
-            (combo) => combo !== `${selectedNode?.host}/${selectedNode?.port}`,
-          )
-        : hostPortCombos
-      ).includes(`${values.host}/${values.port}`)
-    ) {
-      errors.port = 'Host/port combination is already taken';
-    }
     if (!frontend && values.automation) {
       if (!values.backend) {
         errors.backend = 'Backend is required';
@@ -244,33 +234,11 @@ export const NodeForm = ({
 
   const getNodeName = useCallback(() => {
     if (values.dispatch && !values.frontend && values.host) {
-      const host = formData?.hosts?.find(({ id }) => id === values.host);
-      const { name: locationName } = host.location;
-      const [, instance] = host.name.split('-');
-      const existingDispatchCount =
-        nodeNames?.filter((name) => name.includes('dispatch-'))?.length || 0;
-
-      return `instance-${instance}/${locationName}/dispatch-${existingDispatchCount + 1}`;
+      let nodeName = `${values.name}`;
+      return nodeName;
     } else if (values.chain && values.host) {
-      const chainName = formData?.chains?.find(({ id }) => id === values.chain)?.name;
-      const hostName = formData?.hosts?.find(({ id }) => id === values.host)?.name;
-      let nodeName = `${hostName}/${chainName}`;
-
-      if (frontend) {
-        return `frontend-${nodeName}`;
-      } else {
-        const isPoktInternal = env('PNF') && chainName.includes('POKT-');
-
-        let nodeNumber: string;
-        if (isPoktInternal) {
-          nodeNumber = values.port.slice(-2);
-        } else {
-          const existingNodeCount =
-            nodeNames?.filter((name) => name.includes(nodeName))?.length || 0;
-          nodeNumber = String(existingNodeCount + 1).padStart(2, '0');
-        }
-        return `${nodeName}/${nodeNumber}`;
-      }
+      let nodeName = `${values.name}`;
+      return nodeName;
     } else {
       return '';
     }
@@ -295,7 +263,8 @@ export const NodeForm = ({
       const host = formData?.hosts?.find(({ id }) => id === values.host);
       const hostDomain = host?.ip || host?.fqdn;
       const protocol = `http${values.https ? 's' : ''}`;
-      return `${protocol}://${hostDomain}:${values.port}`;
+      const endpoint = values.name.slice(0, values.name.indexOf('-'));
+      return `${protocol}://${hostDomain}:${values.port}/${endpoint}`;
     } else {
       return '';
     }
@@ -359,7 +328,7 @@ export const NodeForm = ({
       if (newValues.chain || newValues.host) {
         newValues.name = getNodeName();
       }
-      if (newValues.host || newValues.port || newValues.https) {
+      if (newValues.host || newValues.port || newValues.https || newValues.name) {
         newValues.url = getNodeUrl();
       }
       return newValues;
@@ -508,29 +477,11 @@ export const NodeForm = ({
         )}
         <TextField
           name="name"
-          value={getNodeName()}
+          value={values.name}
           onChange={handleChange}
           label="Name"
           variant="outlined"
-          disabled
           size="small"
-          sx={{
-            '& fieldset': { borderWidth: '0px !important' },
-          }}
-          InputProps={{
-            sx: { paddingRight: 0 },
-            endAdornment: read ? null : (
-              <InputAdornment position="start">
-                <Tooltip
-                  title="Node name is derived from host name/chain/number"
-                  placement="left"
-                  arrow
-                >
-                  <HelpOutlineIcon fontSize="small" />
-                </Tooltip>
-              </InputAdornment>
-            ),
-          }}
         />
         <TextField
           name="url"
