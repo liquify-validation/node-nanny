@@ -724,6 +724,7 @@ export const CreateNodeDocument = gql`
     backend
     frontend
     port
+    endpoint
     name
     server
     url
@@ -855,6 +856,7 @@ export const UpdateNodeDocument = gql`
     backend
     frontend
     port
+    endpoint
     name
     server
     url
@@ -1344,6 +1346,7 @@ export const NodeDocument = gql`
     backend
     frontend
     port
+    endpoint
     name
     server
     url
@@ -1413,6 +1416,7 @@ export const NodesDocument = gql`
     backend
     frontend
     port
+    endpoint
     name
     server
     url
